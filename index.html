@@ -11,7 +11,7 @@
 :root{--bg:#111418;--card:#1b2027;--card2:#232a33;--txt:#e8ecf1;--mut:#8a94a3;--acc:#4f9dff;--ok:#3ecf8e;--warn:#ffb547;--seg:#2c343e}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg)}
-body{margin:0;color:var(--txt);font:16px/1.4 system-ui,-apple-system,Roboto,sans-serif;padding-bottom:40px;user-select:none;-webkit-user-select:none}
+body{margin:0 auto;max-width:600px;color:var(--txt);font:16px/1.4 system-ui,-apple-system,Roboto,sans-serif;user-select:none;-webkit-user-select:none}
 header{position:sticky;top:0;background:var(--bg);padding:12px 16px 8px;z-index:5;border-bottom:1px solid #1f252d}
 .timer{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:14px;padding:10px 12px}
 .timer>div{flex:1}
@@ -19,42 +19,69 @@ header{position:sticky;top:0;background:var(--bg);padding:12px 16px 8px;z-index:
 .timer .sub{font-size:12px;color:var(--mut)}
 button{font:inherit;color:inherit;background:var(--card2);border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
 button:active{filter:brightness(1.3)}
+button:disabled{opacity:.3}
 button.pri{background:var(--acc);color:#fff}
 #tb.run{background:var(--warn);color:#111}
 .datebar{display:flex;align-items:center;gap:8px;margin-top:10px}
 .datebar .d{font-weight:600;text-align:center;flex:1;text-transform:capitalize}
 .datebar .d small{color:var(--acc);font-weight:500;text-transform:none}
-main{padding:12px 16px;min-height:60vh}
-h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:20px 0 8px}
-.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:10px;transition:transform .1s}
+main{padding:12px 16px 100px;min-height:60vh}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:22px 0 8px}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:10px;transition:transform .1s;-webkit-touch-callout:none}
 .card:active{transform:scale(.98)}
 .card.done{opacity:.6}
+.card.run{box-shadow:inset 0 0 0 2px var(--c)}
 .card .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
-.card .name{font-weight:600;font-size:17px}
+.card .name{font-weight:600;font-size:17px;min-width:0}
+.card .tm{display:inline-block;font-variant-numeric:tabular-nums;background:var(--card2);border-radius:6px;padding:1px 6px;margin-right:6px;font-size:14px}
 .info{color:var(--mut);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.info.late{color:var(--warn)}
 .bar{display:flex;gap:4px;height:14px}
 .seg{flex:1;background:var(--seg);border-radius:4px;overflow:hidden}
 .seg i{display:block;height:100%;background:var(--c);transition:width .2s}
 .card.done .seg i{background:var(--ok)}
 .empty{color:var(--mut);text-align:center;padding:24px 0}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;z-index:20}
+.addx{width:100%;background:transparent;border:1px dashed #3a4350;color:var(--mut);margin-bottom:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{background:var(--card);border-radius:14px;padding:12px}
+.st .k{font-size:12px;color:var(--mut)}
+.st .v{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.st small{display:block;color:var(--mut);font-size:12px;font-weight:400}
+.st.w2{grid-column:span 2}
+.bbar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%);z-index:6}
+.bin{display:flex;gap:8px;max-width:568px;margin:0 auto}
+.bin button{padding:14px 16px}
+#slb{flex:1;font-weight:600;background:#2b2550}
+#slb.pend{background:var(--warn);color:#111}
+#slb small{font-weight:400;opacity:.8}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
 .ov.hidden{display:none}
-.sheet{background:var(--bg);width:100%;max-height:88vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+.sheet{background:var(--bg);width:100%;max-width:600px;max-height:88vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
 .sh-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .sh-h b{font-size:20px;flex:1}
 .segs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sb{position:relative;background:var(--card);border-radius:14px;height:88px;overflow:hidden;padding:12px;display:flex;flex-direction:column;justify-content:space-between;touch-action:manipulation}
+.sb{position:relative;background:var(--card);border-radius:14px;min-height:88px;overflow:hidden;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:4px;touch-action:manipulation}
 .sb i{position:absolute;left:0;top:0;bottom:0;background:var(--c);opacity:.35;transition:width .2s}
 .sb.full i{opacity:.65}
-.sb span,.sb em{position:relative}
+.sb span,.sb em,.sb small{position:relative}
 .sb span{font-weight:600}
+.sb small{color:var(--mut);font-size:12px;line-height:1.3}
+.sb.full small{color:var(--txt);opacity:.8}
 .sb em{font-style:normal;color:var(--mut);font-variant-numeric:tabular-nums;font-size:20px}
 .sb.full em{color:var(--txt)}
-.hint{color:var(--mut);font-size:13px;text-align:center;margin-top:14px}
+.big{font-size:44px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;margin:6px 0 4px}
+.hint,.note{color:var(--mut);font-size:13px}
+.hint{text-align:center;margin-top:14px}
+.note{margin:6px 0}
 label{display:block;margin:10px 0;color:var(--mut);font-size:13px}
 label input,label select{display:block;width:100%;margin-top:4px}
 input,select{font:inherit;color:var(--txt);background:var(--card);border:1px solid #2c343e;border-radius:10px;padding:10px;user-select:text;-webkit-user-select:text}
-.lbl{color:var(--mut);font-size:13px;margin:12px 0 6px}
+input.full{width:100%}
+.lbl{color:var(--mut);font-size:13px;margin:14px 0 6px}
+.dt{display:flex;gap:8px;align-items:center}
+.dt input[type=date]{flex:1;min-width:0}
+.tsel{display:flex;align-items:center;gap:4px}
+.tsel select{padding:10px 6px;font-variant-numeric:tabular-nums}
 .days{display:flex;gap:5px}
 .days button{flex:1;padding:10px 0;font-size:14px}
 .days button.on{background:var(--acc);color:#fff}
@@ -63,20 +90,41 @@ input,select{font:inherit;color:var(--txt);background:var(--card);border:1px sol
 .srow{display:flex;gap:6px;margin-bottom:6px}
 .srow input:first-child{flex:1;min-width:0}
 .srow input[type=number]{width:84px}
+.erow{background:var(--card);border-radius:12px;padding:10px;margin-bottom:8px}
+.erow .srow input{background:var(--bg)}
+.mini{display:flex;gap:6px}
+.mini label{flex:1;min-width:0;margin:4px 0}
+.mini input,.erow>input{background:var(--bg);padding:8px;width:100%}
 .btns{display:flex;gap:10px;margin-top:14px}
 .btns button{flex:1}
 .wide{width:100%;margin-top:8px}
 .danger{background:#3a1f24;color:#ff8a8a}
-.tr{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.tr,.fr{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.fr{padding:8px 10px;margin-bottom:6px}
+.fr button{padding:8px 12px}
+.fr input{width:72px;padding:8px;text-align:right}
+.fr .u{color:var(--mut);font-size:13px}
 .dot{width:10px;height:10px;border-radius:50%;flex:none}
-.tn{flex:1;min-width:0}
-.tn small{display:block;color:var(--mut);font-size:12px}
+.tn,.fx{flex:1;min-width:0}
+.tn small,.fx small{display:block;color:var(--mut);font-size:12px}
+.frow{display:flex;gap:6px}
+.frow input{min-width:0;flex:1}
+.frow input:first-child{flex:2}
+.chk{display:flex;align-items:center;gap:8px;margin:10px 0}
+.chk input{display:inline;width:auto;margin:0}
+.dyn{background:var(--card);border-radius:14px;padding:12px;margin-bottom:10px}
+.dyn b{display:block}
+.dyn .sum{color:var(--mut);font-size:13px;margin:2px 0 8px}
+.dyn .up{color:var(--ok)}.dyn .dn{color:#ff8a8a}
+.dyn svg{display:block;width:100%;height:64px;margin-bottom:6px}
+.hr{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:5px 0;border-top:1px solid #262d36;font-variant-numeric:tabular-nums}
+.hr span:first-child{color:var(--mut);width:70px}
 </style>
 </head>
 <body>
 <header>
   <div class="timer">
-    <div><div class="t" id="tt">0:00:00</div><div class="sub">Muncă azi</div></div>
+    <div><div class="t" id="tt">0:00:00</div><div class="sub">Muncă azi <span id="sy"></span></div></div>
     <button id="tb" class="pri">▶ Start</button>
     <button id="set" aria-label="Setări">⚙</button>
   </div>
@@ -87,140 +135,370 @@ input,select{font:inherit;color:var(--txt);background:var(--card);border:1px sol
   </div>
 </header>
 <main id="main"></main>
+<div class="bbar"><div class="bin">
+  <button id="slm" aria-label="Somn manual">✎</button>
+  <button id="slb"></button>
+  <button id="shopb" aria-label="Cumpărături">🛒</button>
+</div></div>
 <div class="ov hidden" id="ov"><div class="sheet" id="sh"></div></div>
 <input type="file" id="file" accept="application/json,.json" hidden>
 
 <script>
-const KEY='ziua-mea-v1';
-const COL={check:'#b07cff',sets:'#ff7a59',water:'#4fc3ff',work:'#ffb547'};
-const TYPES={check:'Bifă (ex. pastilă)',sets:'Seturi (ex. sport)',water:'Apă (ml)',work:'Muncă (ore)'};
+const KEY='ziua-mea-v2', OLDKEY='ziua-mea-v1', SKEY='ziua-mea-sync', FN='ziua-mea.json';
+const START='2026-10-05'; // prima zi înregistrată
+const COL={check:'#c9a0ff',med:'#b07cff',sets:'#ff7a59',water:'#4fc3ff',work:'#ffb547',food:'#7ee08a',timer:'#5ad1c4',extra:'#f78fb3'};
+const TYPES={med:'Tratament (preparate cu termen)',sets:'Antrenament (seturi, kg)',check:'Bifă (una sau mai multe linii)',timer:'Cronometru (ex. curățenie)',water:'Apă (ml)',work:'Muncă (ore)',food:'Mâncare (kcal + proteine)'};
 const DAYS=['D','L','Ma','Mi','J','V','S']; // index = getDay(), 0 = duminică
 const ALL=[0,1,2,3,4,5,6];
 const $=s=>document.querySelector(s);
 const uid=()=>Math.random().toString(36).slice(2,9);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const ds=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-const hours=n=>Array.from({length:n},(_,k)=>({name:'Ora '+(k+1),target:1}));
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ds=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const hm=ms=>{const d=new Date(ms);return`${pad(d.getHours())}:${pad(d.getMinutes())}`};
+const fmtD=k=>new Date(k+'T12:00').toLocaleDateString('ro-RO',{day:'numeric',month:'short'});
+const dayDiff=(a,b)=>Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+const r1=x=>Math.round(x*10)/10;
+const hours=n=>Array.from({length:n},(_,k)=>({id:'h'+k,name:'Ora '+(k+1),target:1}));
+const vib=ms=>{if(navigator.vibrate)navigator.vibrate(ms)};
+const canon=o=>JSON.stringify(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(v).sort().reduce((r,x)=>(r[x]=v[x],r),{}):v);
+const today=()=>ds(new Date());
+const nowHM=()=>hm(Date.now());
 
-function defSegs(type){
-  if(type==='check')return[{name:'Gata',target:1}];
-  if(type==='water')return[{name:'Pahar 1',target:250}];
-  if(type==='work')return hours(6);
-  return[{name:'',target:3}];
+/* ora în format 24h, cu liste (nu depinde de setările telefonului) */
+function hmSel(id,H,M,allowNone){
+  return`<div class="tsel"><select id="${id}-h">${allowNone?`<option value="" ${H==null?'selected':''}>—</option>`:''}${Array.from({length:24},(_,i)=>`<option value="${i}" ${i===H?'selected':''}>${pad(i)}</option>`).join('')}</select><span>:</span><select id="${id}-m">${Array.from({length:60},(_,i)=>`<option value="${i}" ${i===(M||0)?'selected':''}>${pad(i)}</option>`).join('')}</select></div>`;
 }
-function defaults(){return{
-  templates:[
-    {id:uid(),name:'Pastilă',type:'check',days:ALL.slice(),segments:defSegs('check')},
-    {id:uid(),name:'Sport',type:'sets',days:[2],segments:[
-      {name:'Umeri',target:4},{name:'Flotări',target:4},{name:'Genuflexiuni',target:5},
-      {name:'Gambe',target:4},{name:'Laterale',target:3},{name:'Gât',target:3}]},
-    {id:uid(),name:'Apă',type:'water',days:ALL.slice(),segments:[250,250,500,250,250,500].map((m,i)=>({name:'Pahar '+(i+1),target:m}))},
-    {id:uid(),name:'Muncă',type:'work',days:[1,2,3,4,5],segments:hours(6)}
-  ],
-  logs:{}, work:{}, timer:{start:null,date:null}
-}}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.templates)return Object.assign(defaults(),s)}catch(e){}return defaults()}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Nu am putut salva datele')}}
+function readTS(dateStr,id){const h=$('#'+id+'-h').value;if(h===''||!dateStr)return null;const[y,mo,da]=dateStr.split('-').map(Number);return new Date(y,mo-1,da,+h,+$('#'+id+'-m').value).getTime()}
+
+function newSeg(type,n){
+  if(type==='med')return{id:uid(),name:'',target:1,from:today(),to:'',note:''};
+  if(type==='sets')return{id:uid(),name:'',target:3,kg:0,reps:10,note:''};
+  if(type==='water')return{id:uid(),name:'Pahar '+n,target:250};
+  if(type==='timer')return{id:uid(),name:'Timp',target:0};
+  return{id:uid(),name:'Linia '+n,target:1};
+}
+function defSegs(type){
+  if(type==='work')return hours(6);
+  if(type==='food')return[{id:'kcal',name:'Calorii',target:2200},{id:'prot',name:'Proteine',target:140}];
+  return[newSeg(type,1)];
+}
+const foodTpl=()=>({id:'food',name:'Mâncare',type:'food',days:ALL.slice(),segments:defSegs('food')});
+const treatTpl=name=>({id:'treat',name:'Tratament',type:'med',days:ALL.slice(),segments:[{id:'treat-0',name:name||'Preparat 1',target:1,from:START,to:'',note:''}]});
+// activități noi adăugate automat o singură dată (și la datele existente)
+const SEEDS={
+  teeth:()=>({id:'teeth',name:'Spălat pe dinți',type:'check',days:ALL.slice(),segments:[{id:'teeth-0',name:'Dimineața',target:1},{id:'teeth-1',name:'Seara',target:1}]}),
+  clean:()=>({id:'clean',name:'🧹 Curățenie',type:'timer',days:ALL.slice(),segments:[{id:'clean-0',name:'Curățenie',target:0}]})
+};
+function blank(){return{v:2,templates:[],tplT:0,foods:[],foodsT:0,shop:[],shopT:0,days:{},timer:{start:null,date:null,t:0},atimer:{},sleepP:{bed:null,t:0},seeded:[]}}
+function defaults(){
+  const b=blank();
+  // id-uri fixe, ca un dispozitiv nou să se potrivească cu celălalt la sincronizare
+  b.templates=[
+    treatTpl(),
+    {id:'sport',name:'Sport',type:'sets',days:[2],segments:['Umeri','Flotări','Genuflexiuni','Gambe','Laterale','Gât'].map((n,i)=>({id:'sport-'+i,name:n,target:[4,4,5,4,3,3][i],kg:0,reps:10,note:''}))},
+    {id:'water',name:'Apă',type:'water',days:ALL.slice(),segments:[250,250,500,250,250,500].map((m,i)=>({id:'water-'+i,name:'Pahar '+(i+1),target:m}))},
+    {id:'work',name:'Muncă',type:'work',days:[1,2,3,4,5],segments:hours(6)},
+    foodTpl()
+  ];
+  return b;
+}
+// aduce date vechi la formatul curent (determinist, la fel pe toate dispozitivele)
+function upgrade(r){
+  r.templates.forEach(t=>t.segments.forEach((s,i)=>{if(!s.id)s.id=t.id+'-'+i}));
+  const pi=r.templates.findIndex(t=>t.id==='pill'&&t.type==='check');
+  if(pi>=0&&!r.templates.some(t=>t.type==='med')){
+    r.templates[pi]=treatTpl(r.templates[pi].name);
+    Object.values(r.days).forEach(D=>{if(D.p&&D.p.pill){if(D.p.pill[0])D.p.treat={'treat-0':1};delete D.p.pill}});
+  }
+  Object.keys(SEEDS).forEach(k=>{if(!r.seeded.includes(k)){if(!r.templates.some(t=>t.id===k))r.templates.push(SEEDS[k]());r.seeded.push(k)}});
+  return r;
+}
+function norm(x){
+  const r=Object.assign(blank(),JSON.parse(JSON.stringify(x)));
+  r.timer=Object.assign({start:null,date:null,t:0},r.timer);
+  r.sleepP=Object.assign({bed:null,t:0},r.sleepP);
+  r.atimer=r.atimer||{};r.seeded=r.seeded||[];r.shop=r.shop||[];
+  return upgrade(r);
+}
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.v===2)return norm(s)}catch(e){}
+  try{ // migrare din versiunea 1
+    const o=JSON.parse(localStorage.getItem(OLDKEY));
+    if(o&&o.templates){
+      const n=defaults(),now=Date.now();
+      n.templates=o.templates;n.tplT=now;
+      if(!n.templates.some(t=>t.type==='food'))n.templates.push(foodTpl());
+      const dates=new Set([...Object.keys(o.logs||{}),...Object.keys(o.work||{})]);
+      dates.forEach(d=>{if(d>=START)n.days[d]={t:now,p:(o.logs||{})[d]||{},work:(o.work||{})[d]||0,food:[]}});
+      if(o.timer&&o.timer.start)n.timer={start:o.timer.start,date:o.timer.date,t:now};
+      return norm(n);
+    }
+  }catch(e){}
+  return norm(defaults());
+}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Nu am putut salva datele')}}
+function save(){saveLocal();schedulePush()}
 
 let S=load();
 let cur=new Date();cur.setHours(12,0,0,0);
+if(ds(cur)<START)cur=new Date(START+'T12:00');
 let sheetMode=null,sheetId=null,E=null;
 const tpl=id=>S.templates.find(t=>t.id===id);
 
+/* ---------- zile ---------- */
+function day(date){const d=S.days[date];if(d){d.p=d.p||{};d.food=d.food||[];d.work=d.work||0;d.w=d.w||{};d.tm=d.tm||{};d.extra=d.extra||[]}return d}
+function touch(date){if(!S.days[date])S.days[date]={};const d=day(date);d.t=Date.now();return d}
+
 /* ---------- logică ---------- */
-function active(t,d){const s=ds(d);return t.days.includes(d.getDay())&&(!t.from||s>=t.from)&&(!t.to||s<=t.to)}
-function workMs(date){return(S.work[date]||0)+(S.timer.start&&S.timer.date===date?Date.now()-S.timer.start:0)}
-function prog(t,date){
-  if(t.type==='work'){const h=workMs(date)/3600000;return t.segments.map((s,i)=>Math.max(0,Math.min(1,h-i)))}
-  const p=(S.logs[date]||{})[t.id]||[];return t.segments.map((s,i)=>p[i]||0);
+const inTerm=(s,date)=>(!s.from||date>=s.from)&&(!s.to||date<=s.to);
+function segsFor(t,date){return t.type==='med'?t.segments.filter(s=>inTerm(s,date)):t.segments}
+function active(t,d){const s=ds(d);return t.days.includes(d.getDay())&&(!t.from||s>=t.from)&&(!t.to||s<=t.to)&&segsFor(t,s).length>0}
+function workMs(date){return((day(date)||{}).work||0)+(S.timer.start&&S.timer.date===date?Date.now()-S.timer.start:0)}
+const isRun=(id,date)=>{const a=S.atimer[id];return!!(a&&a.start&&(!date||a.date===date))};
+function tmMs(id,date){const a=S.atimer[id];return(((day(date)||{}).tm||{})[id]||0)+(a&&a.start&&a.date===date?Date.now()-a.start:0)}
+function foodSum(date){const f=(day(date)||{}).food||[];return[f.reduce((x,e)=>x+(+e.k||0),0),f.reduce((x,e)=>x+(+e.p||0),0)]}
+// câte seturi/doze/pahare are un segment într-o zi (suportă și formatul vechi, pe index)
+function countOf(t,raw,seg){if(!raw)return 0;if(Array.isArray(raw))return raw[t.segments.indexOf(seg)]||0;return raw[seg.id]||0}
+function view(t,date){
+  const segs=segsFor(t,date);let p,f,ok;
+  if(t.type==='timer'){
+    const ms=tmMs(t.id,date),run=isRun(t.id,date),tg=(+segs[0].target||0)*60000;
+    p=[ms];f=[tg?Math.min(1,ms/tg):(ms>0?1:0)];ok=!!tg&&!run&&ms>=tg;
+    return{segs,p,f,ok,run,free:!tg};
+  }
+  if(t.type==='work'){const h=workMs(date)/3600000;p=segs.map((s,i)=>Math.max(0,Math.min(1,h-i)))}
+  else if(t.type==='food')p=foodSum(date);
+  else{const raw=((day(date)||{}).p||{})[t.id];p=segs.map(s=>countOf(t,raw,s))}
+  f=segs.map((s,i)=>t.type==='sets'||t.type==='med'||t.type==='food'?Math.min(1,p[i]/s.target):t.type==='work'?p[i]:(p[i]?1:0));
+  return{segs,p,f,ok:f.length>0&&f.every(x=>x>=1)};
 }
-function frac(t,p){return t.segments.map((s,i)=>t.type==='sets'?Math.min(1,p[i]/s.target):t.type==='work'?p[i]:(p[i]?1:0))}
-function fmt(ms){const m=Math.floor(ms/60000);return`${Math.floor(m/60)}h ${String(m%60).padStart(2,'0')}m`}
-function fmtT(ms){const s=Math.floor(ms/1000);return`${Math.floor(s/3600)}:${String(Math.floor(s/60)%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+function waterMl(date){return S.templates.filter(t=>t.type==='water').reduce((x,t)=>{const v=view(t,date);return x+v.segs.reduce((y,s,i)=>y+(v.p[i]?s.target:0),0)},0)}
+function fmt(ms){const m=Math.floor(ms/60000);return`${Math.floor(m/60)}h ${pad(m%60)}m`}
+function fmtT(ms){const s=Math.floor(ms/1000);return`${Math.floor(s/3600)}:${pad(Math.floor(s/60)%60)}:${pad(s%60)}`}
 function daysTxt(d){return d.length===7?'zilnic':[1,2,3,4,5,6,0].filter(x=>d.includes(x)).map(x=>DAYS[x]).join(' ')||'nicio zi'}
-function infoText(t,p,date){
+function infoText(t,v,date){
+  const done=v.segs.filter((s,i)=>v.f[i]>=1).length;
   switch(t.type){
-    case'check':return p[0]?'făcut':'tap = bifă';
-    case'sets':{const a=p.reduce((x,y)=>x+y,0),b=t.segments.reduce((x,s)=>x+s.target,0),e=t.segments.filter((s,i)=>p[i]>=s.target).length;return`${e}/${t.segments.length} · ${a}/${b} seturi`}
-    case'water':{const a=t.segments.reduce((x,s,i)=>x+(p[i]?s.target:0),0),b=t.segments.reduce((x,s)=>x+s.target,0);return`${a} / ${b} ml`}
-    case'work':return`${fmt(workMs(date))} / ${t.segments.length}h`;
+    case'check':return v.segs.length>1?`${done}/${v.segs.length}`:(v.p[0]?'făcut':'tap = bifă');
+    case'med':return`${done}/${v.segs.length} preparate`;
+    case'sets':{const a=v.p.reduce((x,y)=>x+y,0),b=v.segs.reduce((x,s)=>x+s.target,0);return`${done}/${v.segs.length} · ${a}/${b} seturi`}
+    case'water':{const a=v.segs.reduce((x,s,i)=>x+(v.p[i]?s.target:0),0),b=v.segs.reduce((x,s)=>x+s.target,0);return`${a} / ${b} ml`}
+    case'work':return`${fmt(workMs(date))} / ${v.segs.length}h`;
+    case'food':return`${Math.round(v.p[0])} kcal · ${r1(v.p[1])} g P`;
+    case'timer':return v.run?`⏺ ${fmtT(v.p[0])} · tap = am terminat`:(v.p[0]?`${fmt(v.p[0])} · tap = start`:'tap = start');
   }
 }
+/* greutăți: fiecare zi își păstrează kg/repetările; o zi nouă pornește de la ultimul antrenament */
+function lastW(seg,date){
+  const ks=Object.keys(S.days).filter(k=>k<date).sort().reverse();
+  for(const k of ks){const w=S.days[k].w;if(w&&w[seg.id])return{kg:+w[seg.id].kg||0,reps:+w[seg.id].reps||0}}
+  return{kg:+seg.kg||0,reps:+seg.reps||0};
+}
+function wOf(seg,date){const w=((day(date)||{}).w||{})[seg.id];return w?{kg:+w.kg||0,reps:+w.reps||0}:lastW(seg,date)}
+const wTxt=w=>w.kg||w.reps?`${w.kg?r1(w.kg)+' kg':''}${w.kg&&w.reps?' × ':''}${w.reps?w.reps+' rep':''}`:'';
+
 function change(t,i,d){
-  const date=ds(cur);
-  const L=S.logs[date]||(S.logs[date]={});
-  const p=L[t.id]||(L[t.id]=[]);
-  while(p.length<t.segments.length)p.push(0);
-  if(t.type==='sets')p[i]=Math.max(0,Math.min(t.segments[i].target,(p[i]||0)+d));
-  else p[i]=d>0?(p[i]?0:1):0; // apă / bifă: tap comută, ținut apăsat golește
-  if(navigator.vibrate)navigator.vibrate(d>0?12:35);
+  const date=ds(cur),v=view(t,date),seg=v.segs[i];if(!seg)return;
+  const D=touch(date);
+  let raw=D.p[t.id];
+  if(t.type==='sets'||t.type==='med'){
+    if(!raw||Array.isArray(raw)){const o={};if(Array.isArray(raw))t.segments.forEach((s,k)=>{if(raw[k])o[s.id]=raw[k]});raw=D.p[t.id]=o}
+    raw[seg.id]=Math.max(0,Math.min(seg.target,(raw[seg.id]||0)+d));
+    if(t.type==='sets'&&d>0&&!D.w[seg.id])D.w[seg.id]=lastW(seg,date); // fixează greutatea zilei
+  }else{
+    raw=D.p[t.id]||(D.p[t.id]=[]);
+    const k=t.segments.indexOf(seg);while(raw.length<t.segments.length)raw.push(0);
+    raw[k]=d>0?(raw[k]?0:1):0; // apă / bifă: tap comută, ținut apăsat golește
+  }
+  vib(d>0?12:35);
+  save();render();renderSheet();
+}
+// cronometru (curățenie etc.): tap pornește / oprește; se salvează în ziua în care a pornit
+function toggleT(t){
+  const a=S.atimer[t.id],now=Date.now();
+  if(a&&a.start){const D=touch(a.date);D.tm[t.id]=(D.tm[t.id]||0)+now-a.start;S.atimer[t.id]={start:null,date:null,t:now};vib(25)}
+  else{S.atimer[t.id]={start:now,date:today(),t:now};vib(12)}
   save();render();renderSheet();
 }
 
+/* ---------- extra (sarcini ocazionale cu oră) ---------- */
+function extrasOf(date){return((day(date)||{}).extra||[]).slice().sort((a,b)=>(a.time||'99')<(b.time||'99')?-1:(a.time||'99')>(b.time||'99')?1:0)}
+function extraCard(x,date){
+  const late=!x.done&&x.time&&date===today()&&x.time<nowHM();
+  return`<div class="card ${x.done?'done':''}" data-ex="${x.id}" style="--c:${COL.extra}">
+    <div class="row"><span class="name">${x.done?'✓ ':''}${x.time?`<span class="tm">${x.time}</span>`:''}${esc(x.n)}</span><span class="info ${late?'late':''}">${x.done?'făcut':late?'întârziat':'tap = gata'}</span></div>
+    <div class="bar"><div class="seg"><i style="width:${x.done?100:0}%"></i></div></div></div>`;
+}
+function openExtra(id){sheetMode='extra';sheetId=id;showSheet()}
+function extraHTML(){
+  const date=ds(cur),x=sheetId?((day(date)||{}).extra||[]).find(e=>e.id===sheetId):null;
+  const[H,M]=x&&x.time?x.time.split(':').map(Number):[null,0];
+  return`<div class="sh-h"><b>${x?'Editează':'Ceva extra'}</b><button data-a="close">✕</button></div>
+    <label>Ce trebuie făcut<input id="xn" value="${esc(x?x.n:'')}" placeholder="ex. Sun la dentist"></label>
+    <div class="lbl">Ziua și ora (24h)</div>
+    <div class="dt"><input type="date" id="xd" min="${START}" value="${date}">${hmSel('xt',H,M,true)}</div>
+    <p class="note">Ora e opțională („—” = fără oră).</p>
+    <div class="btns"><button class="pri" data-a="xsave">Salvează</button>${x?'<button class="danger" data-a="xdel">Șterge</button>':''}</div>`;
+}
+
 /* ---------- pagina principală ---------- */
-function cardHTML(t,p,f,ok,date){
-  return`<div class="card ${ok?'done':''}" data-id="${t.id}" style="--c:${COL[t.type]}">
-    <div class="row"><span class="name">${ok?'✓ ':''}${esc(t.name)}</span><span class="info">${infoText(t,p,date)}</span></div>
-    <div class="bar">${f.map(x=>`<div class="seg"><i style="width:${x*100}%"></i></div>`).join('')}</div></div>`;
+function cardHTML(t,v,date){
+  return`<div class="card ${v.ok?'done':''} ${v.run?'run':''}" data-id="${t.id}" style="--c:${COL[t.type]}">
+    <div class="row"><span class="name">${v.ok?'✓ ':''}${esc(t.name)}</span><span class="info">${infoText(t,v,date)}</span></div>
+    <div class="bar">${v.f.map(x=>`<div class="seg"><i style="width:${x*100}%"></i></div>`).join('')}</div></div>`;
+}
+function statsHTML(date){
+  const[k,pr]=foodSum(date),sl=(day(date)||{}).sleep;
+  const tile=(lab,val,id)=>`<div class="st"><div class="k">${lab}</div><div class="v"${id?` id="${id}"`:''}>${val}</div></div>`;
+  const timers=S.templates.filter(t=>t.type==='timer'&&(active(t,cur)||tmMs(t.id,date)>0)).map(t=>tile(esc(t.name),fmt(tmMs(t.id,date)),'st-tm-'+t.id)).join('');
+  return`<h3>Statistica zilei</h3><div class="stats">
+    ${tile('💧 Apă',waterMl(date)+' ml')}
+    ${tile('⏱ Muncă',fmt(workMs(date)),'st-work')}
+    ${tile('🔥 Calorii',Math.round(k)+' kcal')}
+    ${tile('🥩 Proteine',r1(pr)+' g')}
+    ${timers}
+    <div class="st w2" data-sleep><div class="k">😴 Somn (noaptea trecută)</div>
+      <div class="v">${sl?fmt(sl.wake-sl.bed)+`<small>${hm(sl.bed)} → ${hm(sl.wake)}</small>`:'—<small>tap pentru a adăuga manual</small>'}</div></div>
+  </div>`;
 }
 function render(){
-  const date=ds(cur),today=ds(new Date());
-  $('#dl').innerHTML=esc(cur.toLocaleDateString('ro-RO',{weekday:'long',day:'numeric',month:'long'}))+(date===today?' <small>· azi</small>':'');
-  const list=S.templates.filter(t=>active(t,cur));
-  const pend=[],done=[];
-  list.forEach(t=>{const p=prog(t,date),f=frac(t,p),ok=f.every(x=>x>=1);(ok?done:pend).push(cardHTML(t,p,f,ok,date))});
-  $('#main').innerHTML=(pend.length?pend.join(''):`<p class="empty">${list.length?'Totul e făcut 🎉':'Nimic programat în ziua asta.'}</p>`)
-    +(done.length?'<h3>Făcut</h3>'+done.join(''):'');
-}
-// actualizare în loc (fără rebuild) pentru cardul de muncă cât merge timer-ul
-function updateWork(){
   const date=ds(cur);
-  for(const t of S.templates.filter(t=>t.type==='work')){
-    const c=document.querySelector(`.card[data-id="${t.id}"]`);if(!c)continue;
-    const p=prog(t,date),f=frac(t,p);
-    if(f.every(x=>x>=1)!==c.classList.contains('done')){render();return}
-    c.querySelector('.info').textContent=infoText(t,p,date);
-    c.querySelectorAll('.seg i').forEach((el,i)=>el.style.width=f[i]*100+'%');
+  $('#dl').innerHTML=esc(cur.toLocaleDateString('ro-RO',{weekday:'long',day:'numeric',month:'long'}))+(date===today()?' <small>· azi</small>':'');
+  $('#prev').disabled=date<=START;
+  const pend=[],done=[],free=[];
+  extrasOf(date).forEach(x=>(x.done?done:pend).push(extraCard(x,date)));
+  S.templates.filter(t=>active(t,cur)).forEach(t=>{const v=view(t,date),h=cardHTML(t,v,date);(v.free?free:v.ok?done:pend).push(h)});
+  $('#main').innerHTML=(pend.length?pend.join(''):`<p class="empty">${done.length?'Totul e făcut 🎉':'Nimic programat în ziua asta.'}</p>`)
+    +`<button class="addx" data-addx>+ Adaugă ceva extra</button>`
+    +(free.length?'<h3>Cronometre</h3>'+free.join(''):'')
+    +(done.length?'<h3>Făcut</h3>'+done.join(''):'')+statsHTML(date);
+  updSleep();
+}
+// actualizare în loc (fără rebuild) cât merg cronometrele
+function updateLive(){
+  const date=ds(cur);
+  for(const t of S.templates.filter(t=>t.type==='work'||t.type==='timer')){
+    const c=document.querySelector(`.card[data-id="${t.id}"]`);
+    if(c){
+      const v=view(t,date);
+      if(!!v.ok!==c.classList.contains('done')){render();return}
+      c.querySelector('.info').textContent=infoText(t,v,date);
+      c.querySelectorAll('.seg i').forEach((el,i)=>el.style.width=v.f[i]*100+'%');
+    }
+    if(t.type==='timer'){const st=document.getElementById('st-tm-'+t.id);if(st)st.textContent=fmt(tmMs(t.id,date))}
   }
+  const sw=$('#st-work');if(sw)sw.textContent=fmt(workMs(date));
   if(sheetMode==='detail'){
-    const t=tpl(sheetId);if(!t||t.type!=='work')return;
-    const p=prog(t,date),f=frac(t,p);
-    $('#sh .sh-h .info').textContent=infoText(t,p,date);
-    document.querySelectorAll('#sh .sb').forEach((el,i)=>{el.querySelector('i').style.width=f[i]*100+'%';el.querySelector('em').textContent=Math.round(f[i]*100)+'%';el.classList.toggle('full',f[i]>=1)});
+    const t=tpl(sheetId);if(!t)return;
+    if(t.type==='timer'){const b=$('#big');if(b)b.textContent=fmtT(tmMs(t.id,date));return}
+    if(t.type!=='work')return;
+    const v=view(t,date);
+    $('#sh .sh-h .info').textContent=infoText(t,v,date);
+    document.querySelectorAll('#sh .sb').forEach((el,i)=>{el.querySelector('i').style.width=v.f[i]*100+'%';el.querySelector('em').textContent=Math.round(v.f[i]*100)+'%';el.classList.toggle('full',v.f[i]>=1)});
   }
 }
-$('#main').addEventListener('click',e=>{
+// ținut apăsat pe un card = deschide detaliile / editarea
+const mainEl=$('#main');
+let mT=null,mFired=false,mX=0,mY=0;
+mainEl.addEventListener('pointerdown',e=>{
   const c=e.target.closest('.card');if(!c)return;
+  mFired=false;mX=e.clientX;mY=e.clientY;clearTimeout(mT);
+  mT=setTimeout(()=>{mT=null;mFired=true;vib(30);if(c.dataset.ex)openExtra(c.dataset.ex);else if(c.dataset.id)openSheet(c.dataset.id)},500);
+});
+mainEl.addEventListener('pointermove',e=>{if(mT&&(Math.abs(e.clientX-mX)>10||Math.abs(e.clientY-mY)>10)){clearTimeout(mT);mT=null}});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>mainEl.addEventListener(ev,()=>{clearTimeout(mT);mT=null}));
+mainEl.addEventListener('contextmenu',e=>{if(e.target.closest('.card'))e.preventDefault()});
+mainEl.addEventListener('click',e=>{
+  if(mFired){mFired=false;return}
+  if(e.target.closest('[data-sleep]')){sheetMode='sleep';showSheet();return}
+  if(e.target.closest('[data-addx]')){openExtra(null);return}
+  const c=e.target.closest('.card');if(!c)return;
+  if(c.dataset.ex){
+    const D=touch(ds(cur)),x=D.extra.find(e=>e.id===c.dataset.ex);
+    if(x){x.done=!x.done;vib(x.done?12:35);save();render()}return;
+  }
   const t=tpl(c.dataset.id);if(!t)return;
-  if(t.type==='check')change(t,0,1);else openSheet(t.id);
+  if(t.type==='check'){const v=view(t,ds(cur)),i=v.f.findIndex(x=>x<1);if(i>=0)change(t,i,1);else openSheet(t.id)}
+  else if(t.type==='timer')toggleT(t);
+  else openSheet(t.id);
 });
 
-/* ---------- timer ---------- */
+/* ---------- timer muncă ---------- */
 function tick(){
-  $('#tt').textContent=fmtT(workMs(ds(new Date())));
+  $('#tt').textContent=fmtT(workMs(today()));
   const r=!!S.timer.start;$('#tb').textContent=r?'❚❚ Pauză':'▶ Start';$('#tb').classList.toggle('run',r);
 }
 $('#tb').onclick=()=>{
-  if(S.timer.start){const d=S.timer.date;S.work[d]=(S.work[d]||0)+Date.now()-S.timer.start;S.timer={start:null,date:null}}
-  else S.timer={start:Date.now(),date:ds(new Date())};
+  const now=Date.now();
+  if(S.timer.start){const D=touch(S.timer.date);D.work=(D.work||0)+now-S.timer.start;S.timer={start:null,date:null,t:now}}
+  else S.timer={start:now,date:today(),t:now};
   save();tick();render();
 };
-setInterval(()=>{tick();if(S.timer.start&&ds(cur)===S.timer.date)updateWork()},1000);
+setInterval(()=>{tick();if(S.timer.start||Object.values(S.atimer).some(a=>a&&a.start))updateLive()},1000);
+
+/* ---------- somn ---------- */
+function updSleep(){
+  const b=$('#slb'),p=S.sleepP.bed;
+  b.classList.toggle('pend',!!p);
+  b.innerHTML=p?`☀ M-am trezit <small>· culcat la ${hm(p)}</small>`:'😴 Mă culc';
+}
+$('#slb').onclick=()=>{
+  const now=Date.now(),bed=S.sleepP.bed;
+  if(!bed){S.sleepP={bed:now,t:now};vib(20);save();updSleep();return}
+  if(now-bed<30*60000&&!confirm('Au trecut mai puțin de 30 min. Salvez ca somn?')){S.sleepP={bed:null,t:now};save();updSleep();return}
+  const D=touch(today());D.sleep={bed,wake:now};
+  S.sleepP={bed:null,t:now};vib(20);save();render();
+};
+$('#slm').onclick=()=>{sheetMode='sleep';showSheet()};
+function sleepHTML(){
+  const date=ds(cur),sl=(day(date)||{}).sleep;
+  const prev=new Date(cur);prev.setDate(prev.getDate()-1);
+  const bed=sl?new Date(sl.bed):new Date(ds(prev)+'T23:00'),wake=sl?new Date(sl.wake):new Date(date+'T07:00');
+  let h=`<div class="sh-h"><b>Somn</b><button data-a="close">✕</button></div>`;
+  if(S.sleepP.bed){
+    const p=new Date(S.sleepP.bed);
+    h+=`<h3>Acum: ai apăsat „Mă culc”</h3><p class="note">Dacă te-ai culcat de fapt mai devreme sau mai târziu, corectează ora:</p>
+      <div class="dt"><input type="date" id="spd" value="${ds(p)}">${hmSel('spt',p.getHours(),p.getMinutes())}</div>
+      <div class="btns"><button class="pri" data-a="slpsave">Salvează ora</button><button data-a="slcancel">Anulează „Mă culc”</button></div>`;
+  }
+  h+=`<h3>Manual</h3><p class="note">Noaptea care se termină în ${esc(cur.toLocaleDateString('ro-RO',{day:'numeric',month:'long'}))}.</p>
+    <div class="lbl">M-am culcat</div><div class="dt"><input type="date" id="sbd" value="${ds(bed)}">${hmSel('sbt',bed.getHours(),bed.getMinutes())}</div>
+    <div class="lbl">M-am trezit</div><div class="dt"><input type="date" id="swd" value="${ds(wake)}">${hmSel('swt',wake.getHours(),wake.getMinutes())}</div>
+    <div class="btns"><button class="pri" data-a="slsave">Salvează</button>${sl?'<button class="danger" data-a="sldel">Șterge</button>':''}</div>`;
+  return h;
+}
+
+/* ---------- cumpărături ---------- */
+$('#shopb').onclick=()=>{sheetMode='shop';showSheet()};
+function shopHTML(){
+  let h=`<div class="sh-h"><b>🛒 Cumpăr de obicei</b><button data-a="close">✕</button></div>
+    <div class="frow"><input id="shin" placeholder="Produs nou (ex. lapte)" enterkeyhint="done"><button class="pri" data-a="shadd">+</button></div>
+    <p class="note">${S.shop.length} ${S.shop.length===1?'produs':'produse'}</p>`;
+  S.shop.forEach(x=>{h+=`<div class="fr"><span class="fx">${esc(x.n)}</span><button data-a="shdel" data-id="${x.id}">✕</button></div>`});
+  return h;
+}
+function shopAdd(){
+  const el=$('#shin'),n=el.value.trim();if(!n)return;
+  if(S.shop.some(x=>x.n.toLowerCase()===n.toLowerCase())){alert('E deja în listă');return}
+  S.shop.push({id:uid(),n});S.shopT=Date.now();save();renderSheet();$('#shin').focus();
+}
 
 /* ---------- navigare zile ---------- */
-function shift(n){cur.setDate(cur.getDate()+n);render()}
+function shift(n){const c=new Date(cur);c.setDate(c.getDate()+n);if(ds(c)<START)return;cur=c;render()}
 $('#prev').onclick=()=>shift(-1);
 $('#next').onclick=()=>shift(1);
 $('#dl').onclick=()=>{cur=new Date();cur.setHours(12,0,0,0);render()};
 let sx=null,sy=null;
-$('#main').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
-$('#main').addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.5)shift(dx<0?1:-1);sx=null},{passive:true});
+mainEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+mainEl.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.5)shift(dx<0?1:-1);sx=null},{passive:true});
 
-/* ---------- foaia de jos (detaliu / setări / editor) ---------- */
+/* ---------- foaia de jos ---------- */
 function openSheet(id){sheetMode='detail';sheetId=id;showSheet()}
-function openEditor(id){
+function openEditor(id,from){
   const t=tpl(id);
-  E=t?JSON.parse(JSON.stringify(t)):{id:uid(),name:'',type:'sets',days:ALL.slice(),segments:defSegs('sets'),from:'',to:'',isNew:true};
+  E=t?JSON.parse(JSON.stringify(t)):{id:uid(),name:'',type:'check',days:ALL.slice(),segments:defSegs('check'),from:'',to:'',isNew:true};
+  E._back=from||'settings';
   sheetMode='edit';showSheet();
 }
 function showSheet(){$('#ov').classList.remove('hidden');renderSheet();$('#sh').scrollTop=0}
@@ -230,44 +508,142 @@ $('#set').onclick=()=>{sheetMode='settings';showSheet()};
 
 function renderSheet(){
   if(!sheetMode)return;
-  $('#sh').innerHTML=sheetMode==='detail'?detailHTML():sheetMode==='settings'?settingsHTML():editHTML();
+  const m={detail:detailHTML,settings:settingsHTML,edit:editHTML,sleep:sleepHTML,dyn:dynHTML,extra:extraHTML,shop:shopHTML}[sheetMode];
+  $('#sh').innerHTML=m?m():'';
+}
+function foodHTML(t){
+  const date=ds(cur),v=view(t,date),D=day(date)||{food:[]};
+  let h=`<div class="sh-h"><b>${esc(t.name)}</b><button data-a="close">✕</button></div><div class="segs">`;
+  v.segs.forEach((s,i)=>{h+=`<div class="sb ${v.f[i]>=1?'full':''}" style="--c:${COL.food}"><i style="width:${v.f[i]*100}%"></i><span>${esc(s.name)}</span><em>${i?r1(v.p[i]):Math.round(v.p[i])} / ${s.target} ${i?'g':'kcal'}</em></div>`});
+  h+=`</div><div class="lbl">Adaugă</div>
+    <div class="frow"><input id="fn" placeholder="Ce ai mâncat"><input id="fk" type="number" inputmode="numeric" placeholder="kcal"><input id="fp" type="number" inputmode="decimal" step="0.1" placeholder="prot. g"></div>
+    <label class="chk"><input type="checkbox" id="ffav"> salvează și în favorite</label>
+    <button class="pri wide" data-a="fadd">+ Adaugă</button>`;
+  if(S.foods.length){
+    h+=`<h3>Favorite (tap + ca să adaugi)</h3>`;
+    S.foods.forEach(x=>{h+=`<div class="fr"><span class="fx">${esc(x.n)}<small>${x.k} kcal · ${x.p} g proteine</small></span><button data-a="favadd" data-id="${x.id}">+</button><button data-a="favdel" data-id="${x.id}">✕</button></div>`});
+  }
+  h+=`<h3>Mâncat în ziua asta</h3>`;
+  if(!D.food.length)h+=`<p class="note">Nimic încă.</p>`;
+  D.food.forEach(x=>{h+=`<div class="fr"><span class="fx">${esc(x.n)}<small>${x.at?hm(x.at)+' · ':''}${x.k} kcal · ${x.p} g</small></span><button data-a="fstar" data-id="${x.id}">☆</button><button data-a="fdel" data-id="${x.id}">✕</button></div>`});
+  return h;
+}
+function timerHTML(t){
+  const date=ds(cur),ms=tmMs(t.id,date),run=isRun(t.id),runHere=isRun(t.id,date),tg=+t.segments[0].target||0;
+  let h=`<div class="sh-h"><b>${esc(t.name)}</b><button data-a="close">✕</button></div>
+    <div class="big" id="big">${fmtT(ms)}</div><p class="hint" style="margin-top:0">${esc(fmtD(date))}${tg?` · țintă ${tg} min`:''}</p>
+    <button class="pri wide" data-a="tmt">${run?'■ Am terminat':'▶ Start'}</button>`;
+  if(run&&!runHere)h+=`<p class="note">Cronometrul merge din ${esc(fmtD(S.atimer[t.id].date))}.</p>`;
+  h+=`<div class="btns"><button data-a="tm-">−5 min</button><button data-a="tm+">+5 min</button></div>
+    <p class="hint">Butoanele corectează timpul zilei. Pe pagina principală: tap = start / am terminat.</p>`;
+  return h;
+}
+function segSub(t,s,date){
+  if(t.type==='med'){
+    const term=s.to?(()=>{const n=dayDiff(date,s.to);return`până la ${fmtD(s.to)} · ${n?'mai '+n+(n===1?' zi':' zile'):'ultima zi'}`})():'fără termen de final';
+    return[s.note,term].filter(Boolean).map(esc).join('<br>');
+  }
+  if(t.type==='sets')return[wTxt(wOf(s,date)),s.note].filter(Boolean).map(esc).join('<br>');
+  return'';
 }
 function detailHTML(){
   const t=tpl(sheetId);if(!t)return'';
-  const date=ds(cur),p=prog(t,date),f=frac(t,p);
-  let h=`<div class="sh-h"><b>${esc(t.name)}</b><span class="info">${infoText(t,p,date)}</span><button data-a="close">✕</button></div><div class="segs">`;
-  t.segments.forEach((s,i)=>{
-    const lab=t.type==='sets'?`${p[i]}/${s.target}`:t.type==='water'?`${s.target} ml`:t.type==='work'?`${Math.round(f[i]*100)}%`:(p[i]?'✓':'');
-    h+=`<div class="sb ${f[i]>=1?'full':''}" data-i="${i}" style="--c:${COL[t.type]}"><i style="width:${f[i]*100}%"></i><span>${esc(s.name)}</span><em>${lab}</em></div>`;
+  if(t.type==='food')return foodHTML(t);
+  if(t.type==='timer')return timerHTML(t);
+  const date=ds(cur),v=view(t,date);
+  let h=`<div class="sh-h"><b>${esc(t.name)}</b><span class="info">${infoText(t,v,date)}</span><button data-a="close">✕</button></div><div class="segs">`;
+  v.segs.forEach((s,i)=>{
+    const lab=t.type==='sets'||t.type==='med'?`${v.p[i]}/${s.target}`:t.type==='water'?`${s.target} ml`:t.type==='work'?`${Math.round(v.f[i]*100)}%`:(v.p[i]?'✓':'');
+    const sub=segSub(t,s,date);
+    h+=`<div class="sb ${v.f[i]>=1?'full':''}" data-i="${i}" style="--c:${COL[t.type]}"><i style="width:${v.f[i]*100}%"></i><span>${esc(s.name)}</span>${sub?`<small>${sub}</small>`:''}<em>${lab}</em></div>`;
   });
   h+='</div>';
   if(t.type==='work')h+=`<div class="btns"><button data-a="w-">−15 min</button><button data-a="w+">+15 min</button></div><p class="hint">Se umple din timer-ul de sus. Butoanele corectează manual.</p>`;
   else if(t.type==='water')h+=`<p class="hint">Tap = umple / golește paharul</p>`;
-  else h+=`<p class="hint">Tap = +1 set · Ține apăsat = −1</p>`;
+  else if(t.type==='med')h+=`<p class="hint">Tap = +1 doză · Ține apăsat = −1</p><button class="wide" data-a="edq">✎ Preparate și termene</button>`;
+  else if(t.type==='sets'){
+    h+=`<p class="hint">Tap = +1 set · Ține apăsat = −1</p>
+      <h3>Greutate în ziua asta</h3><p class="note">Se salvează doar pentru ${esc(fmtD(date))}. Antrenamentele trecute rămân cu ce aveau.</p>`;
+    v.segs.forEach(s=>{const w=wOf(s,date);h+=`<div class="fr"><span class="fx">${esc(s.name)}</span><input type="number" inputmode="decimal" step="0.5" min="0" data-w="kg" data-sid="${s.id}" value="${w.kg||''}" placeholder="0"><span class="u">kg</span><input type="number" inputmode="numeric" min="0" data-w="reps" data-sid="${s.id}" value="${w.reps||''}" placeholder="0"><span class="u">rep</span></div>`});
+    h+=`<div class="btns"><button data-a="dyn">📈 Dinamică</button><button data-a="edq">✎ Exerciții</button></div>`;
+  }
+  else h+=`<p class="hint">Tap = bifă / debifă</p><button class="wide" data-a="edq">✎ Linii</button>`;
   return h;
+}
+function spark(vals,color){
+  if(vals.length<2)return'';
+  const mn=Math.min(...vals),mx=Math.max(...vals),rg=mx-mn||1;
+  const pts=vals.map((v,i)=>[6+i*(288/(vals.length-1)),56-(v-mn)/rg*48]);
+  return`<svg viewBox="0 0 300 64" preserveAspectRatio="none"><polyline fill="none" stroke="${color}" stroke-width="2.5" vector-effect="non-scaling-stroke" points="${pts.map(p=>p.join(',')).join(' ')}"/>${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="${color}"/>`).join('')}</svg>`;
+}
+function dynHTML(){
+  const t=tpl(sheetId);if(!t)return'';
+  let h=`<div class="sh-h"><b>📈 ${esc(t.name)}</b><button data-a="dback">‹ Înapoi</button></div>`;
+  const keys=Object.keys(S.days).sort();
+  t.segments.forEach(seg=>{
+    const rows=keys.map(k=>{const n=countOf(t,(S.days[k].p||{})[t.id],seg);if(!n)return null;const w=wOf(seg,k);return{k,n,kg:w.kg,reps:w.reps}}).filter(Boolean);
+    h+=`<div class="dyn"><b>${esc(seg.name)}</b>`;
+    if(!rows.length){h+=`<div class="sum">Încă niciun antrenament.</div></div>`;return}
+    const a=rows[0],z=rows[rows.length-1],dk=r1(z.kg-a.kg);
+    h+=`<div class="sum">${rows.length} antrenamente · ${r1(a.kg)} kg → ${r1(z.kg)} kg ${dk?`<span class="${dk>0?'up':'dn'}">(${dk>0?'+':''}${dk} kg)</span>`:''}</div>`;
+    h+=spark(rows.map(r=>r.kg),COL.sets);
+    rows.slice(-10).reverse().forEach(r=>{h+=`<div class="hr"><span>${fmtD(r.k)}</span><span>${wTxt(r)||'—'}</span><span>${r.n} ${r.n===1?'set':'seturi'}</span></div>`});
+    h+='</div>';
+  });
+  return h;
+}
+function syncHTML(){
+  if(SY.gistId)return`<h3>Sincronizare PC ↔ telefon</h3>
+    <p class="note">Conectat ✓${SY.last?' · ultima sincronizare: '+hm(SY.last):''}${syncState==='err'?' · eroare (fără internet?)':''}${syncState==='auth'?' · token invalid sau expirat':''}</p>
+    <div class="btns"><button data-a="snow">Sincronizează acum</button><button data-a="soff">Deconectează</button></div>`;
+  return`<h3>Sincronizare PC ↔ telefon</h3>
+    <p class="note">Pune un token GitHub cu permisiunea „gist”. Folosește același token pe PC și pe telefon.</p>
+    <input id="tok" type="password" class="full" placeholder="ghp_..." autocomplete="off">
+    <button class="pri wide" data-a="son">Conectează</button>`;
 }
 function settingsHTML(){
   let h=`<div class="sh-h"><b>Setări</b><button data-a="close">✕</button></div>`;
   S.templates.forEach((t,i)=>{
     h+=`<div class="tr"><span class="dot" style="background:${COL[t.type]}"></span><span class="tn">${esc(t.name)}<small>${TYPES[t.type]} · ${daysTxt(t.days)}</small></span>
-      <button data-a="up" data-i="${i}" ${i?'':'disabled style="opacity:.3"'}>↑</button><button data-a="ed" data-id="${t.id}">✎</button></div>`;
+      <button data-a="up" data-i="${i}" ${i?'':'disabled'}>↑</button><button data-a="ed" data-id="${t.id}">✎</button></div>`;
   });
-  h+=`<button class="pri wide" data-a="new">+ Activitate nouă</button>
-    <h3>Date</h3><div class="btns"><button data-a="exp">Export backup</button><button data-a="imp">Import backup</button></div>
-    <div class="btns"><button data-a="reset" class="danger">Resetează tot</button></div>`;
+  h+=`<button class="pri wide" data-a="new">+ Activitate nouă</button>${syncHTML()}
+    <h3>Backup</h3><div class="btns"><button data-a="exp">Export</button><button data-a="imp">Import</button></div>
+    ${SY.gistId?'':'<div class="btns"><button data-a="reset" class="danger">Resetează tot</button></div>'}`;
   return h;
 }
 function editHTML(){
   let h=`<div class="sh-h"><b>${E.isNew?'Activitate nouă':'Editează'}</b><button data-a="back">‹ Înapoi</button></div>
-    <label>Nume<input data-f="name" value="${esc(E.name)}" placeholder="ex. Vitamina D"></label>
+    <label>Nume<input data-f="name" value="${esc(E.name)}" placeholder="ex. Vitamine"></label>
     <label>Tip<select data-f="type">${Object.entries(TYPES).map(([k,v])=>`<option value="${k}" ${E.type===k?'selected':''}>${v}</option>`).join('')}</select></label>
-    <div class="lbl">Zile</div><div class="days">${[1,2,3,4,5,6,0].map(d=>`<button data-a="day" data-d="${d}" class="${E.days.includes(d)?'on':''}">${DAYS[d]}</button>`).join('')}</div>
-    <div class="two"><label>De la (opțional)<input type="date" data-f="from" value="${E.from||''}"></label><label>Până la (opțional)<input type="date" data-f="to" value="${E.to||''}"></label></div>`;
+    <div class="lbl">Zile</div><div class="days">${[1,2,3,4,5,6,0].map(d=>`<button data-a="day" data-d="${d}" class="${E.days.includes(d)?'on':''}">${DAYS[d]}</button>`).join('')}</div>`;
+  if(E.type!=='med')h+=`<div class="two"><label>De la (opțional)<input type="date" data-f="from" value="${E.from||''}"></label><label>Până la (opțional)<input type="date" data-f="to" value="${E.to||''}"></label></div>`;
   if(E.type==='work')h+=`<label>Ore pe zi<input type="number" min="1" max="16" data-f="hours" value="${E.segments.length}"></label>`;
-  else if(E.type!=='check'){
-    h+=`<div class="lbl">${E.type==='water'?'Pahare (ml fiecare)':'Exerciții (nr. seturi)'}</div>`;
+  else if(E.type==='timer')h+=`<label>Țintă în minute (0 = fără țintă, apare la „Cronometre”)<input type="number" min="0" data-f="tmin" value="${+E.segments[0].target||0}"></label>`;
+  else if(E.type==='food')h+=`<div class="two"><label>Țintă calorii (kcal)<input type="number" min="1" data-f="st" data-i="0" value="${E.segments[0].target}"></label><label>Țintă proteine (g)<input type="number" min="1" data-f="st" data-i="1" value="${E.segments[1].target}"></label></div>`;
+  else if(E.type==='med'){
+    h+=`<div class="lbl">Preparate</div>`;
+    E.segments.forEach((s,i)=>{h+=`<div class="erow"><div class="srow"><input data-f="sn" data-i="${i}" value="${esc(s.name)}" placeholder="Nume preparat"><button data-a="delseg" data-i="${i}">✕</button></div>
+      <div class="mini"><label>Doze/zi<input type="number" min="1" data-f="st" data-i="${i}" value="${s.target}"></label><label>De la<input type="date" data-f="sfrom" data-i="${i}" value="${s.from||''}"></label><label>Până la<input type="date" data-f="sto" data-i="${i}" value="${s.to||''}"></label></div>
+      <input data-f="snote" data-i="${i}" value="${esc(s.note)}" placeholder="Notă (ex. 1 comprimat după masă)"></div>`});
+    h+=`<button data-a="addseg" class="wide">+ Adaugă preparat</button>`;
+  }
+  else if(E.type==='sets'){
+    h+=`<div class="lbl">Exerciții</div>`;
+    E.segments.forEach((s,i)=>{h+=`<div class="erow"><div class="srow"><input data-f="sn" data-i="${i}" value="${esc(s.name)}" placeholder="Nume exercițiu"><button data-a="delseg" data-i="${i}">✕</button></div>
+      <div class="mini"><label>Seturi<input type="number" min="1" data-f="st" data-i="${i}" value="${s.target}"></label><label>Kg inițial<input type="number" min="0" step="0.5" data-f="kg" data-i="${i}" value="${s.kg||0}"></label><label>Repetări<input type="number" min="0" data-f="reps" data-i="${i}" value="${s.reps||0}"></label></div>
+      <input data-f="snote" data-i="${i}" value="${esc(s.note)}" placeholder="Notă (ex. gantere, câte o mână)"></div>`});
+    h+=`<p class="note">„Kg inițial” contează doar până la primul antrenament. După aceea greutatea se schimbă din ziua respectivă.</p><button data-a="addseg" class="wide">+ Adaugă exercițiu</button>`;
+  }
+  else if(E.type==='water'){
+    h+=`<div class="lbl">Pahare (ml fiecare)</div>`;
     E.segments.forEach((s,i)=>{h+=`<div class="srow"><input data-f="sn" data-i="${i}" value="${esc(s.name)}" placeholder="Nume"><input type="number" min="1" data-f="st" data-i="${i}" value="${s.target}"><button data-a="delseg" data-i="${i}">✕</button></div>`});
-    h+=`<button data-a="addseg" class="wide">+ Adaugă ${E.type==='water'?'pahar':'exercițiu'}</button>`;
+    h+=`<button data-a="addseg" class="wide">+ Adaugă pahar</button>`;
+  }
+  else if(E.type==='check'){
+    h+=`<div class="lbl">Linii (de câte ori pe zi)</div>`;
+    E.segments.forEach((s,i)=>{h+=`<div class="srow"><input data-f="sn" data-i="${i}" value="${esc(s.name)}" placeholder="ex. Dimineața"><button data-a="delseg" data-i="${i}">✕</button></div>`});
+    h+=`<button data-a="addseg" class="wide">+ Adaugă linie</button>`;
   }
   h+=`<div class="btns"><button class="pri" data-a="save">Salvează</button>${E.isNew?'':'<button data-a="del" class="danger">Șterge</button>'}</div>`;
   return h;
@@ -278,8 +654,8 @@ const sh=$('#sh');
 let lpT=null,lpFired=false,lpI=null;
 function lpClear(){if(lpT)clearTimeout(lpT);lpT=null;lpI=null}
 sh.addEventListener('pointerdown',e=>{
-  const b=e.target.closest('.sb');if(!b||sheetMode!=='detail')return;
-  const t=tpl(sheetId);if(!t||t.type==='work')return;
+  const b=e.target.closest('.sb');if(!b||sheetMode!=='detail'||b.dataset.i==null)return;
+  const t=tpl(sheetId);if(!t||t.type==='work'||t.type==='food'||t.type==='timer')return;
   lpI=+b.dataset.i;lpFired=false;
   lpT=setTimeout(()=>{lpFired=true;lpT=null;change(t,lpI,-1)},450);
 });
@@ -290,67 +666,206 @@ sh.addEventListener('pointerup',()=>{
 });
 sh.addEventListener('pointercancel',lpClear);
 sh.addEventListener('contextmenu',e=>e.preventDefault());
+sh.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='shin'){e.preventDefault();shopAdd()}});
 
 sh.addEventListener('input',e=>{
   if(sheetMode!=='edit')return;
-  const el=e.target,f=el.dataset.f,i=+el.dataset.i;
+  const el=e.target,f=el.dataset.f,i=+el.dataset.i,s=E.segments[i];
   if(f==='name')E.name=el.value;
   else if(f==='from')E.from=el.value;
   else if(f==='to')E.to=el.value;
-  else if(f==='sn')E.segments[i].name=el.value;
-  else if(f==='st')E.segments[i].target=Math.max(1,+el.value||1);
+  else if(f==='sn')s.name=el.value;
+  else if(f==='st')s.target=Math.max(1,+el.value||1);
+  else if(f==='tmin')E.segments[0].target=Math.max(0,Math.round(+el.value||0));
+  else if(f==='kg')s.kg=Math.max(0,+el.value||0);
+  else if(f==='reps')s.reps=Math.max(0,Math.round(+el.value||0));
+  else if(f==='sfrom')s.from=el.value;
+  else if(f==='sto')s.to=el.value;
+  else if(f==='snote')s.note=el.value;
   else if(f==='hours')E.segments=hours(Math.max(1,Math.min(16,+el.value||1)));
 });
 sh.addEventListener('change',e=>{
-  if(sheetMode==='edit'&&e.target.dataset.f==='type'){E.type=e.target.value;E.segments=defSegs(E.type);renderSheet()}
+  const el=e.target;
+  if(sheetMode==='edit'&&el.dataset.f==='type'){E.type=el.value;E.segments=defSegs(E.type);renderSheet();return}
+  // greutatea zilei curente
+  if(sheetMode==='detail'&&el.dataset.w){
+    const t=tpl(sheetId),seg=t&&t.segments.find(s=>s.id===el.dataset.sid);if(!seg)return;
+    const date=ds(cur),w=wOf(seg,date),D=touch(date);
+    w[el.dataset.w]=el.dataset.w==='kg'?Math.max(0,r1(+el.value||0)):Math.max(0,Math.round(+el.value||0));
+    D.w[seg.id]=w;save();renderSheet();
+  }
 });
-sh.addEventListener('click',e=>{
+function addFood(n,k,p){const D=touch(ds(cur));D.food.push({id:uid(),n,k,p,at:Date.now()});vib(12)}
+sh.addEventListener('click',async e=>{
   const b=e.target.closest('[data-a]');if(!b)return;
-  const a=b.dataset.a;
+  const a=b.dataset.a,now=Date.now();
   switch(a){
     case'close':closeSheet();break;
-    case'back':sheetMode='settings';renderSheet();break;
-    case'w+':case'w-':{const d=ds(cur);S.work[d]=Math.max(0,(S.work[d]||0)+(a==='w+'?1:-1)*900000);save();render();renderSheet();tick();break}
-    case'up':{const i=+b.dataset.i;if(i>0){[S.templates[i-1],S.templates[i]]=[S.templates[i],S.templates[i-1]];save();renderSheet()}break}
+    case'back':if(E&&E._back==='detail'){sheetMode='detail'}else sheetMode='settings';renderSheet();break;
+    case'dyn':sheetMode='dyn';renderSheet();$('#sh').scrollTop=0;break;
+    case'dback':sheetMode='detail';renderSheet();break;
+    case'edq':openEditor(sheetId,'detail');break;
+    case'w+':case'w-':{const D=touch(ds(cur));D.work=Math.max(0,(D.work||0)+(a==='w+'?1:-1)*900000);save();render();renderSheet();tick();break}
+    // cronometru
+    case'tmt':toggleT(tpl(sheetId));break;
+    case'tm+':case'tm-':{const t=tpl(sheetId),D=touch(ds(cur));D.tm[t.id]=Math.max(0,(D.tm[t.id]||0)+(a==='tm+'?1:-1)*300000);save();render();renderSheet();break}
+    // extra
+    case'xsave':{
+      const n=$('#xn').value.trim();if(!n){alert('Scrie ce trebuie făcut');break}
+      const nd=$('#xd').value||ds(cur);if(nd<START){alert('Data e prea veche');break}
+      const h=$('#xt-h').value,time=h===''?'':pad(h)+':'+pad($('#xt-m').value);
+      const od=ds(cur);let done=false,id=sheetId||uid();
+      if(sheetId){const D=touch(od),x=D.extra.find(e=>e.id===sheetId);if(x)done=x.done;D.extra=D.extra.filter(e=>e.id!==sheetId)}
+      touch(nd).extra.push({id,n,time,done});
+      save();closeSheet();
+      if(nd!==od)alert('Salvat pentru '+fmtD(nd));
+      break;
+    }
+    case'xdel':if(confirm('Ștergi?')){const D=touch(ds(cur));D.extra=D.extra.filter(e=>e.id!==sheetId);save();closeSheet()}break;
+    // cumpărături
+    case'shadd':shopAdd();break;
+    case'shdel':S.shop=S.shop.filter(x=>x.id!==b.dataset.id);S.shopT=now;save();renderSheet();break;
+    // mâncare
+    case'fadd':{
+      const n=$('#fn').value.trim()||'Mâncare',k=Math.max(0,+$('#fk').value||0),p=Math.max(0,r1(+$('#fp').value||0));
+      if(!k&&!p){alert('Pune calorii sau proteine');break}
+      addFood(n,k,p);
+      if($('#ffav').checked){S.foods.push({id:uid(),n,k,p});S.foodsT=now}
+      save();render();renderSheet();break;
+    }
+    case'favadd':{const x=S.foods.find(f=>f.id===b.dataset.id);if(x){addFood(x.n,x.k,x.p);save();render();renderSheet()}break}
+    case'favdel':{const x=S.foods.find(f=>f.id===b.dataset.id);if(x&&confirm('Ștergi „'+x.n+'” din favorite?')){S.foods=S.foods.filter(f=>f!==x);S.foodsT=now;save();renderSheet()}break}
+    case'fstar':{const x=(day(ds(cur))||{food:[]}).food.find(f=>f.id===b.dataset.id);if(x&&!S.foods.some(f=>f.n===x.n&&f.k===x.k&&f.p===x.p)){S.foods.push({id:uid(),n:x.n,k:x.k,p:x.p});S.foodsT=now;save();renderSheet()}break}
+    case'fdel':{const D=touch(ds(cur));D.food=D.food.filter(f=>f.id!==b.dataset.id);save();render();renderSheet();break}
+    // somn
+    case'slsave':{
+      const bed=readTS($('#sbd').value,'sbt'),wake=readTS($('#swd').value,'swt');
+      if(!bed||!wake||wake<=bed||wake-bed>20*3600000){alert('Ore invalide (trezirea trebuie să fie după culcare, max. 20h)');break}
+      const wd=ds(new Date(wake)),od=ds(cur);
+      if(wd!==od&&day(od)&&day(od).sleep)delete touch(od).sleep;
+      touch(wd).sleep={bed,wake};save();closeSheet();break;
+    }
+    case'sldel':{const D=touch(ds(cur));delete D.sleep;save();closeSheet();break}
+    case'slpsave':{const p=readTS($('#spd').value,'spt');if(!p||p>now){alert('Ora nu poate fi în viitor');break}S.sleepP={bed:p,t:now};save();updSleep();renderSheet();break}
+    case'slcancel':S.sleepP={bed:null,t:now};save();updSleep();renderSheet();break;
+    // setări
+    case'up':{const i=+b.dataset.i;if(i>0){[S.templates[i-1],S.templates[i]]=[S.templates[i],S.templates[i-1]];S.tplT=now;save();renderSheet()}break}
     case'ed':openEditor(b.dataset.id);break;
     case'new':openEditor(null);break;
     case'day':{const d=+b.dataset.d;E.days=E.days.includes(d)?E.days.filter(x=>x!==d):[...E.days,d];renderSheet();break}
-    case'addseg':E.segments.push(E.type==='water'?{name:'Pahar '+(E.segments.length+1),target:250}:{name:'',target:3});renderSheet();break;
-    case'delseg':if(E.segments.length>1){E.segments.splice(+b.dataset.i,1);renderSheet()}break;
+    case'addseg':E.segments.push(newSeg(E.type,E.segments.length+1));renderSheet();break;
+    case'delseg':if(E.segments.length>1&&confirm('Ștergi „'+(E.segments[+b.dataset.i].name||'rândul')+'”?')){E.segments.splice(+b.dataset.i,1);renderSheet()}break;
     case'save':{
       if(!E.name.trim()){alert('Pune un nume');break}
+      if(E.type==='med'&&E.segments.some(s=>s.from&&s.to&&s.to<s.from)){alert('La un preparat „până la” e înainte de „de la”');break}
       E.name=E.name.trim();
-      E.segments.forEach((s,k)=>{if(!s.name.trim())s.name=(E.type==='water'?'Pahar ':'Exercițiu ')+(k+1)});
-      delete E.isNew;
+      E.segments.forEach((s,k)=>{if(!String(s.name||'').trim())s.name=(E.type==='water'?'Pahar ':E.type==='med'?'Preparat ':E.type==='sets'?'Exercițiu ':'Linia ')+(k+1)});
+      const back=E._back;delete E.isNew;delete E._back;
+      if(E.type==='med'){delete E.from;delete E.to}
       const i=S.templates.findIndex(x=>x.id===E.id);
       if(i>=0)S.templates[i]=E;else S.templates.push(E);
-      save();sheetMode='settings';renderSheet();break;
+      S.tplT=now;save();render();
+      sheetMode=back==='detail'?'detail':'settings';renderSheet();break;
     }
-    case'del':if(confirm('Ștergi „'+E.name+'”?')){S.templates=S.templates.filter(x=>x.id!==E.id);save();sheetMode='settings';renderSheet()}break;
+    case'del':if(confirm('Ștergi „'+E.name+'”?')){S.templates=S.templates.filter(x=>x.id!==E.id);S.tplT=now;save();sheetMode='settings';renderSheet()}break;
+    // sincronizare
+    case'son':{
+      const tok=$('#tok').value.trim();if(!tok){alert('Pune tokenul');break}
+      b.disabled=true;b.textContent='Se conectează…';
+      try{await connect(tok);alert('Conectat. Datele se sincronizează automat.')}
+      catch(x){SY={};saveSY();setSync('off');alert('Nu s-a putut conecta ('+x.message+'). Verifică tokenul și permisiunea „gist”.')}
+      if(sheetMode==='settings')renderSheet();break;
+    }
+    case'snow':await sync();if(sheetMode==='settings')renderSheet();break;
+    case'soff':if(confirm('Deconectezi sincronizarea pe acest dispozitiv? Datele rămân și aici, și în GitHub.')){SY={};saveSY();setSync('off');renderSheet()}break;
+    // backup
     case'exp':exportData();break;
     case'imp':$('#file').click();break;
-    case'reset':if(confirm('Ștergi toate datele și setările?')){S=defaults();save();closeSheet();tick()}break;
+    case'reset':if(confirm('Ștergi toate datele și setările?')){S=norm(defaults());saveLocal();closeSheet();tick()}break;
   }
 });
 
 /* ---------- backup ---------- */
 function exportData(){
   const blob=new Blob([JSON.stringify(S)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ziua-mea-'+ds(new Date())+'.json';
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ziua-mea-'+today()+'.json';
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 }
 $('#file').onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
-  try{const d=JSON.parse(await f.text());if(!Array.isArray(d.templates))throw 0;S=Object.assign(defaults(),d);save();alert('Backup importat');closeSheet();tick()}
+  try{const d=JSON.parse(await f.text());if(d.v!==2||!Array.isArray(d.templates))throw 0;S=norm(d);save();alert('Backup importat');closeSheet();tick()}
   catch(x){alert('Fișier invalid')}
   e.target.value='';
 };
 
+/* ---------- sincronizare prin GitHub Gist privat ---------- */
+let SY=(()=>{try{return JSON.parse(localStorage.getItem(SKEY))||{}}catch(e){return{}}})();
+function saveSY(){try{localStorage.setItem(SKEY,JSON.stringify(SY))}catch(e){}}
+let syncState='off',syncing=false,syncAgain=false,pushT=null;
+function setSync(s){syncState=s;$('#sy').textContent=!SY.gistId?'':{ok:'· ☁ ✓',busy:'· ☁ …',err:'· ☁ offline',auth:'· ☁ ⚠ token'}[s]||''}
+async function gh(path,opt={}){
+  const headers={'Authorization':'Bearer '+SY.token,'Accept':'application/vnd.github+json'};
+  if(opt.body)headers['Content-Type']='application/json';
+  const r=await fetch('https://api.github.com'+path,{...opt,headers,cache:'no-store'});
+  if(!r.ok)throw new Error(String(r.status));
+  return r.json();
+}
+// combinare: pentru fiecare zi / listă câștigă versiunea modificată mai recent; la egalitate, cea din cloud
+function merge(a,b){
+  const newer=(x,y,k)=>(x[k]||0)>(y[k]||0)?x:y;
+  const byKey=(x,y)=>{const o={};new Set([...Object.keys(x),...Object.keys(y)]).forEach(k=>{const p=x[k],q=y[k];o[k]=!q?p:!p?q:((p.t||0)>(q.t||0)?p:q)});return o};
+  const r=blank();
+  const T=newer(a,b,'tplT');r.templates=T.templates;r.tplT=T.tplT||0;
+  const F=newer(a,b,'foodsT');r.foods=F.foods;r.foodsT=F.foodsT||0;
+  const SH=newer(a,b,'shopT');r.shop=SH.shop;r.shopT=SH.shopT||0;
+  r.timer=(a.timer.t||0)>(b.timer.t||0)?a.timer:b.timer;
+  r.sleepP=(a.sleepP.t||0)>(b.sleepP.t||0)?a.sleepP:b.sleepP;
+  r.atimer=byKey(a.atimer,b.atimer);
+  r.seeded=[...new Set([...a.seeded,...b.seeded])];
+  r.days=byKey(a.days,b.days);
+  return r;
+}
+async function connect(token){
+  SY={token};
+  const list=await gh('/gists?per_page=100');
+  let g=list.find(x=>x.files&&x.files[FN]);
+  if(!g)g=await gh('/gists',{method:'POST',body:JSON.stringify({description:'Ziua Mea – date (nu șterge)',public:false,files:{[FN]:{content:JSON.stringify(S)}}})});
+  SY.gistId=g.id;saveSY();
+  await sync();
+  if(syncState!=='ok')throw new Error(syncState);
+}
+async function sync(){
+  if(!SY.token||!SY.gistId)return;
+  if(syncing){syncAgain=true;return}
+  syncing=true;setSync('busy');
+  try{
+    const g=await gh('/gists/'+SY.gistId),f=g.files[FN];
+    let remote=null;
+    if(f){let txt=f.content;if(f.truncated)txt=await(await fetch(f.raw_url,{cache:'no-store'})).text();try{const d=JSON.parse(txt);if(d&&d.v===2)remote=norm(d)}catch(x){}}
+    const merged=remote?merge(S,remote):S;
+    if(canon(merged)!==canon(S)){S=merged;saveLocal();refresh()}
+    if(!remote||canon(S)!==canon(remote))
+      await gh('/gists/'+SY.gistId,{method:'PATCH',body:JSON.stringify({files:{[FN]:{content:JSON.stringify(S)}}})});
+    SY.last=Date.now();saveSY();setSync('ok');
+  }catch(x){setSync(x.message==='401'||x.message==='404'?'auth':'err')}
+  syncing=false;
+  if(syncAgain){syncAgain=false;sync()}
+}
+function schedulePush(){if(!SY.gistId)return;clearTimeout(pushT);pushT=setTimeout(sync,1500)}
+function refresh(){
+  render();tick();
+  // nu redesenăm foaia dacă utilizatorul scrie ceva în ea
+  const typing=document.activeElement&&sh.contains(document.activeElement)&&/INPUT|SELECT/.test(document.activeElement.tagName);
+  if(!typing&&(sheetMode==='settings'||sheetMode==='dyn'||sheetMode==='shop'||(sheetMode==='detail'&&(tpl(sheetId)||{}).type!=='food')))renderSheet();
+}
+
 /* ---------- start ---------- */
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();render()}});
-tick();render();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();render();sync()}});
+window.addEventListener('online',()=>sync());
+setInterval(()=>{if(!document.hidden)sync()},60000);
+saveLocal();setSync(SY.gistId?'busy':'off');tick();render();sync();
 </script>
 </body>
 </html>
