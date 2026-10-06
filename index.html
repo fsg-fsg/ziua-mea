@@ -348,16 +348,26 @@ function cardHTML(t,v,date){
     <div class="row"><span class="name">${v.ok?'✓ ':''}${esc(t.name)}</span><span class="info">${infoText(t,v,date)}</span></div>
     <div class="bar">${v.f.map(x=>`<div class="seg"><i style="width:${x*100}%"></i></div>`).join('')}</div></div>`;
 }
+// timp liber = 24h − muncă − toate cronometrele − somnul nopții trecute
+function freeTxt(date){
+  const work=workMs(date),tms=S.templates.filter(t=>t.type==='timer').reduce((x,t)=>x+tmMs(t.id,date),0);
+  const sl=(day(date)||{}).sleep,sleep=sl?sl.wake-sl.bed:0;
+  const free=Math.max(0,864e5-work-tms-sleep);
+  return`${fmt(free)}<small>24h − muncă ${fmt(work)} − cronometre ${fmt(tms)} − somn ${sl?fmt(sleep):'nenotat'}</small>`;
+}
 function statsHTML(date){
   const[k,pr]=foodSum(date),sl=(day(date)||{}).sleep;
   const tile=(lab,val,id)=>`<div class="st"><div class="k">${lab}</div><div class="v"${id?` id="${id}"`:''}>${val}</div></div>`;
-  const timers=S.templates.filter(t=>t.type==='timer'&&(active(t,cur)||tmMs(t.id,date)>0)).map(t=>tile(esc(t.name),fmt(tmMs(t.id,date)),'st-tm-'+t.id)).join('');
+  const tl=S.templates.filter(t=>t.type==='timer'&&(active(t,cur)||tmMs(t.id,date)>0));
+  // dacă un cronometru rămâne singur pe rând, se întinde pe tot rândul
+  const timers=tl.map((t,i)=>`<div class="st${tl.length%2&&i===tl.length-1?' w2':''}"><div class="k">${esc(t.name)}</div><div class="v" id="st-tm-${t.id}">${fmt(tmMs(t.id,date))}</div></div>`).join('');
   return`<h3>Statistica zilei</h3><div class="stats">
     ${tile('💧 Apă',waterMl(date)+' ml')}
     ${tile('⏱ Muncă',fmt(workMs(date)),'st-work')}
     ${tile('🔥 Calorii',Math.round(k)+' kcal')}
     ${tile('🥩 Proteine',r1(pr)+' g')}
     ${timers}
+    <div class="st w2"><div class="k">🌿 Timp liber</div><div class="v" id="st-free">${freeTxt(date)}</div></div>
     <div class="st w2" data-sleep><div class="k">😴 Somn (noaptea trecută)</div>
       <div class="v">${sl?fmt(sl.wake-sl.bed)+`<small>${hm(sl.bed)} → ${hm(sl.wake)}</small>`:'—<small>tap pentru a adăuga manual</small>'}</div></div>
   </div>`;
@@ -389,6 +399,7 @@ function updateLive(){
     if(t.type==='timer'){const st=document.getElementById('st-tm-'+t.id);if(st)st.textContent=fmt(tmMs(t.id,date))}
   }
   const sw=$('#st-work');if(sw)sw.textContent=fmt(workMs(date));
+  const sf=$('#st-free');if(sf)sf.innerHTML=freeTxt(date);
   if(sheetMode==='detail'){
     const t=tpl(sheetId);if(!t)return;
     if(t.type==='timer'){const b=$('#big');if(b)b.textContent=fmtT(tmMs(t.id,date));return}
